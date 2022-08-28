@@ -1,0 +1,27 @@
+Hello and welcome to this small guyd.
+In this guyd we will show you how to setup ssh key authentication on ios.
+First, lets genorate sum ssh keys
+this can be dun on windows by downloading putty, (link below) and running the puttYgen.
+first download putty from this link, https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+Then run and set up the installer.
+Now run the PuttYgen from your start menu.
+Select the Ed25519 radio button.
+Press genorate.
+Now inport the key and convert the private key.
+Name it id_ED25519.pub
+If your on linux or mac os follow thees steps
+To genorate your key run this command in the terminal.
+ssh-keygen -t Ed2519
+Ok, so now you should have your ed25519 key files that you need.
+Now connect to your phone thrue an sftp client,, or just some how get your id_ed25519.pub in to /var/root/authorized_keys
+Now ssh in to your phone and run the following commands
+mkdir -p ~/.ssh
+chmod 0700 ~/.ssh
+mv ~/authorized_keys ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+chmod go-w /private/var/root
+There you go,your essentially done, How ever, we strongly recommend disabling password authentication.
+This can be done by editing /etc/ssh/sshd_config.
+uncomment the line that reads PasswordAuthentication  yes, and change yes to no.
+also to insure that the ssh key authentication works uncomment the line that says PubkeyAuthentication yes.
+now you are rilly done.

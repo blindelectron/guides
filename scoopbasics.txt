@@ -1,0 +1,60 @@
+Scoop Basics Guide
+This guide is written by blind electron.
+In this document we will go over the following.
+How do I install scoop?
+How do I add mor buckets to scoop?
+How do I install programs using scoop?
+How do I search for programs using scoop?
+How do I remove programs using scoop?
+step1: how do I install scoop?
+First, you have to change your exicution policy, so that the remote script to install scoop can be run.
+Open up a powershell window and enter the following command
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+look, I promise you I know you may think this is confusing but its certainly not, its simple more than you think.
+basically, this command is for the remote script to help install scoop to run correctly.
+
+Note, changing your remote policy doesn't mean that you will actually be changing how your computer would be remoted or managed, its just changing the remote protocols.
+Congradulations! you have successfully changed your exicution policy! Lets install scoop now.
+Now, in your powershell window, type the following:
+please note: if your running this as an administrator, swhich to non administrative mode before running the command below.
+Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+Again, I know, it does sound confusing, but as I said before, its all simple.
+It is basically downloading the scoop install script, and then running it.
+congratulations! you have successfully instaled scoop now.
+step2: how do I add buckets to scoop?
+Interjection: before continuing, please run
+scoop install git
+to install git so things will not brake.
+again, if you get the following:
+ERROR Git is required for buckets. Run 'scoop install git' and try again.
+it means you do not have git installed.
+if you would like to add the extras bucket which is optional, but recommended, Then you must run this command in cmd or power shell.
+scoop bucket add extras
+You may also add the nonportable bucket which again, is recommended.
+It can be done whith the following command
+scoop bucket add nonportable
+if you want a list of all of the available buckets, you can run the following command.
+scoop bucket known
+if you would like a list of the buckets you have added, run the following:
+scoop bucket list
+step 3: how do I install programs with scoop?
+To install a program, run the following.
+scoop install programme name, where programme name is replaced by the name of the programme you want to install.
+step4: how do I remove an installed programme from scoop?
+To remove a program, run the following.
+scoop uninstall ProgramName, where programme name is replaced by the name of the programme you want to uninstall.
+When installing a programme you get a message like "Couldn't find manifest for 'programme name."
+this means that either the programme is not available on scoop or any buckets that you have addid, or it is under a diffrant name.
+step5: how can I just search for programmes on scoop?
+If  the programme your installing may be under a diffrant name then you can search for it with the following command.
+scoop search programme name, where programme name is replaced by the name of the programme you want to search for.
+conclusions:
+this is the guide to using scoop, I hope you learned how to master it! happy installing!
+You can visit me on the web at.
+https://blind-electron.ml
+you can also view my storage which is just a bunch of files I have collected over the years at
+https://storage.blind-electron.ml
+some credit goes to lightning winter, who helpt with writing most of the document, and also wrote the original guide, which this guide was based off of.
+you can go to his websight at
+https://lightning-tech.duckdns.org
+thank you for attending with me throughout this document.
