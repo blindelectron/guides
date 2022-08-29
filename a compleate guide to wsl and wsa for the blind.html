@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>a-compleate-guide-to-wsl-and-wsa-for-the-blind</title>
+</head>
+<body>
+<h1>welcome</h1>
+<p>hello there everyone, this is a full guide for using wsl and wsa as a blind or visually impaired person.
+we will go over:
+<ul>
+<li>how to install wsl.</li>
+<li>how to configure orca on wsl.</li>
+<li>how to install wsa.</li>
+<li>how to install custom wsa with play store.</li>
+<li>basic usage of wsa with its built in screen reader.</li>
+</ul>
+with that, lets get down to business.</p>
+<h1>how to install wsl</h1>
+<p>this is a pretty simple thing to do. To start we need to chews what linux distribution to install. To get a full list of available distributions to install open powershell or cmd and run:
+<br></br>
+<strong>wsl --list --online</strong>
+<br></br>
+the first column it shows is the name we will use to install said distribution. To install which ever distribution,(distro) you chose wee will run:
+<br></br><strong>wsl --install -d distro-name</strong><br></br>
+Now you will have to wait for the installation to compleat. Once done, the computer will prompt you to restart. <strong>This is not one of those situations where you don't actually need to, this time you really do.</strong> Once you have restarted, if a terminal window does not pop up automatically, you will need to go to the start menu and start typing the name of your distro. Wen your distro pops up you can hit enter. Now your terminal window should be finishing setup. It will prompt you for a username and password for linux, this does not need to be the same as Windows. Once entered, it will finish up, and after that your done. Now that you have wsl installed lets move on to the next step.</p>
+<h1>install and configure orca on wsl.</h1>
+<p>to start we need to install some required packages as well as orca this will depend on your distro of choice. On Debian and Ubuntu based distros you can run:
+<br></br><strong>sudo apt install -y orca espeak  speech-dispatcher <strong><br></br>
+<strong>make sure you have installed a desktop environment such as mate, otherwise orca will not work.</strong>
+This will install orca, espeak, and speech dispatcher. Espeak is the tts engine wee will use with orca, and speech dispatcher is a way for orca to talk to espeak and other text to speech engines. Now wee will launch orca and configure it. To  launch orca for  the first time run:
+<br></br><strong>orca -s</strong><br></br>
+This will launch the orca settings window. Here you can set your default settings that you prefer and then click ok. From now on to launch orca you must type:
+<br></br><strong>orca -r</strong><br></br>
+quick tip: orca may quit wen you close all open wsl2g(the wsl gui) windows, you just need to type orca -r to turn it back on again. Lets move on to installing the default wsa package.</p>
+<h1>installing wsa default package.</h1>
+<p>This is even easier than installing wsl. First go to the Microsoft store. Then, in the search bar type amazonappstore  and the amazon app store will appear. Click enter and then press install. It will then prompt you to download wsa so the amazon app store can run. Do this and then your good to go. Hint, once opening the amazon app store Press Control Windows T to turn on the wsa screen reader. Now lets move on to installing wsa with  the google play store.</p>
+<h1>installing wsa with google play store</h1>
+<p>installing wsa with the play store is far more complex then the default version. But I can get you threw it. <strong>note, you must have wsl installed for this method to work</strong></p>
+ <h2>enable windows developer mode</h2>
+<p>First you need to enable windows developer mode. this can be done by navigating to the privacy and security option. Then navigate to the for developers option in the list to the right, if you don't see it you need to click the Privacy & security  button. Then press the Install apps from any source, including loose files, button to turn on developer mode.</p>
+<h2>download wsa app file.</h2>
+<p>First head to the <a href="http://store.rg-adguard.net/"> rg.adguard websight.</a> Then change request type to productid, and select ring to slow. then in the productid box enter:
+<br></br>9P3395VX91NR<br></br>
+Then click on the Generate temporary links button. If you get the error "server returned an empty list" then try thees same steps again, sometimes it just doesn't feal like working the first time. Now at the bottom of the table you should see MicrosoftCorporationII.WindowsSubsystemForAndroid_xxxxx_neutral_~_8wekyb3d8bbwe.msixbundle, the xxxxx represents a version number witch can change. Click on it and it should download, if not then right click on the link and hit open in new tab  your browser should download it now. If it downloads as dad8ebbc-***** just rename it to the title of the link on the sight, MicrosoftCorporationII.WindowsSubsystemForAndroid_xxxxx_neutral_~_8wekyb3d8bbwe.msixbundle.
+<h2>download open GApps package</h2>
+<p>Now we must download the open GApps zip file so we can add it to our android image.
+First go to the <a href="https://opengapps.org"> open GApps web sight.</a> Then under platform select x86-64, under android version select android 11, and under Variant select pico. Then click the download button. after saving that wee need to download two more things, unless of course you don't have 7zip witch you can get from <a href=https://www.7-zip.org/download.html> here.</a></p>
+<h2>download wsaga script</h2>
+<p>the wsaga script is required for us to be able to modify the android image so we can install open GApps. First you need to go to the <a href=https://github.com/WSA-Community/WSAGAScript> wsaga script github page.</a> There are 2 ways you can download this, either by using git or by using the download zip option on github. I will sho the latter option since if your using git you probly allretty no how to clone a repo. First click on the code dropdown menu. Then choos download zip and save it to your computer.</p>
+<h2>setup ADB</h2>
+<p>If you have scoop, just run scoop install adb in the command line. Otherwise go to the <a href=https://developer.android.com/studio/releases/platform-tools#downloads> adb download page</a> and click the download for windows button.
+ Then check the box to agree to the turms and click the for Windows link <strong>Not the button again!</strong> to download the adb zip package.</p>
+ <h2>extracting files</h2>
+ <p>First lets extract the wsa nightly bundle out of that msixbundle file we downloaded earlier. open 7zip and navagate to the folder containing the msixbundle file(the wsa package) click on the wsa package file to open it, <strong>do this from 7zip not from your file explorer!</strong>. then finde the WsaPackage_xxxxx_x64_Release-Nightly.msix file and click on it. Then press Control+A to select all files in the displayed folder. Then click on the extract button (using object nav if using NVDA) to the left side. IN the extraction path type:
+ <br></br>C:\WindowsSubsystemAndroid<br></br>
+then click ok.
+<br></br>
+Now lets extract the wsaga scripts. To do this simply extract the wsaga script to: <br></br>c:\wsaga<br></br>
+Now Extract the adb zip package to c:\adb</P>
+<h2>copying files in to there appropriate locations</h2>
+<p>First coppy the open_gapps-x86_64-11.0-pico-xxxxxxxxxx.zip file in to C:\wsaga\#GAPPS folder <strong>do not extract it!</strong> Then go in to your C:\WindowsSubsystemAndroid folder and deleate the AppxMetadata, AppxBlockMap.xml, AppxSignature.p7x, and Content_Type.xml files. Then coppy product.img, vendor.img, system_ext.img and system.img in to c:\wsaga\#IMAGES.</p>
+<h2>modifying wsa image</h2>
+<p>First, open your preferred wsl distro as admin. Then Run sudo su to switch to root. Now run in your wsl terminal:
+<br></br><strong>cd /mnt/c/wsaga</strong><br></br>
+Then run:
+<br></br><strong>apt update</strong><br></br>
+now run:
+<br></br><strong>apt install unzip lzip dos2unix</strong><br></br>
+Here we have updated the repos and installed necessary packages. Now lets use dos2unix to make sure we can run the wsaga script files. To do this run:
+<br></br><strong>dos2unix ./apply.sh;dos2unix ./extend_and_mount_images.sh;dos2unix ./extract_gapps_pico.sh;dos2unix ./unmount_images.sh;dos2unix ./VARIABLES.sh</strong><br></br>
+Now here is a bunch of stuff to run:
+<br></br>
+<strong>./extract_gapps_pico.sh<br></br>
+./extend_and_mount_images.sh<br></br>
+./apply.sh <br></br>
+./unmount_images.sh</strong><br></br>
+Entering these commands will simply run the respective scripts, which should modify are wsa package.
+Now coppy the images back from the C:\wsaga\#IMAGES to C:\WindowsSubsystemAndroid and chews replace all. Now copy the kernel-x86_64 file from C:\wsaga\misc to C:\WindowsSubsystemAndroid\Tools. Rename the kernel file to kernal_back and rename kernel-x86_64 to kernal.</p>
+<h2>installing modded wsa package</h2>
+<p>To install the modded wsa package run in admin powershell:
+<br></br><strong>Add-AppxPackage -Register C:\WindowsSubsystemAndroid\AppxManifest.xml</strong><br></br>
+Once you have done that, Windows Subsystem for Android should be installed on your computer.</p>
+<h2>installing the play store</h2>
+<p>To start open the Windows Subsystem for Android™ Settings app. Then go to the developer setting and turn on the "Devices on the same private network can access the Subsystem." setting. Then click the manage developer settings button that appears. A dialog will pop up asking if you would like to share diagnostics with Microsoft, make sure you say no by unchecking the box. After wsa loads click close, or just hit alt F4. This step may seem redundant, but you need the subsystem running before connecting via adb. Now open up a command prompt window as admin and run:
+ <br></br><strong>cd c:\adb</strong><br></br>
+ there is no need to do this if you have installed adb threu scoop. Now type the following command to connect to wsa using adb:
+<br></br><strong>adb connect 127.0.0.1:58526</strong><br></br>
+Now that you are connected type:
+<br></br><strong>adb shell</strong><br></br>
+Follow it up by typing su to swich to the root user in wsa.
+Now, to make the Google Play Store work, type:
+ <br></br><strong>setenforce 0</strong><br></br>
+ now Try to launch the play store, if you  get an error wen signing in that your device is not play protect certifyed follow the below instructions.</p>
+ <h2>fixing play protect error</h2>
+ <p>first download the device+id apk <a href="https://androidfilehost.com/?fid=673956719939830832"> here.</a> Install it by running in your cmd admin prompt adb sidload path to apk. Make sure you have exited the android shell first, type exit twice if you have not allreddy. now launch the device id app and coppy the google-services-framework(gsf) id to the clipboard. Go to the <a href="https://www.google.com/android/uncertified/"> google device Registration page</a> and enter your device id, then click Register. Now restart wsa by going to its settings then system and clicking "Turn off Windows Subsystem for Android™" wait for it to turn off then launch the playstore again. Keep in minde that it will take a small amount of time for your device Registration to go thrue, so you may not want to launch the playstore right away.</p>
+ <h1>thank you</h1>
+ <p>Thanks for stikking with me thrue all of that, Hopefully you have a working subsystem now. If you need any help, don't hesitate to contact me at
+ blindelectron@blind-electron.ml
+ thank you.</p>
