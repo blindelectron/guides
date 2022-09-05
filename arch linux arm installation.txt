@@ -1,0 +1,62 @@
+Hello, I am going to show you how to install arch linux arm on a raspberry pi 4.
+First, lets' talk about the things that you will need to complete this guide. You will need a linux pc and some way to access it, and a card reader that works, may it be the internal or external, just it works with linux.
+
+Download arch linux for the raspberry pi.
+curl http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-4-latest.tar.gz
+If you need a different version, replace the number between the dashes of rpi and latest.
+
+Look for your drive with lsblk. Let's say the drive here is mmcblk0, as it will be for internal card readers. First, use sudo umount /dev/mmcblk0 to unmount it. Now, we are going to create the partitions with these commands. Make sure that this is the right drive, because it is going to get erased.
+sudo parted /dev/mmcblk0 script -- mklabel msdos
+sudo parted /dev/mmcblk0 --script -- mkpart primary fat32 1 128
+sudo parted /dev/mmcblk0 --script -- mkpart primary ext4 129 100%
+sudo parted /dev/mmcblk0 --script -- set 1 boot on
+The first command wipes the drive ant formats it as mbr. The second is creating the boot partition, the third is the main arch partition and the fourth is turning on the boot flag.
+
+Now, it is time to make the file systems. Use these commands to do that.
+sudo mkfs.vfat -F32 /dev/mmcblk0p1
+sudo mkfs.ext4 -F /dev/mmcblk0p2
+
+Make the mount directories in wherever, /mnt is recommended.
+sudo mkdir /mnt/boot
+sudo mkdir /mnt/root
+
+Mount the drive to the directories.
+sudo mount /dev/mmcblk0p1 /mnt/boot
+sudo mount /dev/mmcblk0p2 /mnt/root
+
+Use this command to copy the arch files over to the sd card. For this example, we are just going to say that you are in the working directory of the arch tarball.
+sudo tar -xf ArchLinuxARM-rpi-4-latest.tar.gz -C /mnt/root
+
+We are not done yet. Use this command to copy the boot folder over to the boot partition.
+sudo mv /mnt/root/boot/* /mnt/boot
+The /* flag means copy everything from the folder.
+Use ls /mnt/boot to see what is in there. If it says boot, just move all of the files out of the boot directory and remove the boot folder. If you get a long list of files, then everything is correct. If you want to get ssh on first boot, type sudo touch /mnt/boot/ssh. The hostname, if you are using a pi 4 is alarmpi, the username and password are both alarm, and the root password is root.
+
+Next, unmount the drive.
+sudo umount /dev/mmcblk0p1
+sudo umount /dev/mmcblk0p2
+
+Remove the mount points.
+sudo rm -rf /mnt/boot /mnt/root
+
+
+Now, I am going to show you how to install sudo on the pi. First use these commands to add the keys to pacman. Remember that you need to run these as root, and we don't have sudo yet, so use "su root" to switch to root. Then type these commands.
+pacman-key --init
+pacman-key --populate archlinuxarm
+
+Update your packages before installing sudo. If you don't update your packages, you will get errors when installing sudo.
+pacman -Syu
+
+Run this command as root to install sudo.
+pacman -S sudo
+If you get errors while running this command, you didn't populate the keys correctly. Once you get sudo installed, type nano /etc/sudoers then press f6 and type %wheel and remove the number before the entry. This just tells sudo that any user in the wheel group gets to use the sudo command.
+
+Add your user, add a password, and add your user to the wheel group.
+useradd -m "user"
+passwd "user"
+Go through the prompts here for your password. You need a pssword if you are going to use ssh.
+The -m flag adds a home directory.
+usermod -aG wheel user
+
+
+There we go, an instalition guide of how to install arch linux on a raspberry pi 4.

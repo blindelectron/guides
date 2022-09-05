@@ -1,0 +1,12 @@
+	Hello, in this guide, I will show you how to automount a specific drive when it is plugged into a computer running Linux, or when that computer boots up. This does not mount the hard drive to the same folder on all Linux computers that the hard drive is plugged into, it is just for the specific computer that you plug this hard drive into.
+	First, plug in your hard drive. Then type the following command:
+sudo blkid
+	What you are looking for here, is the UUID of the drive partition. For example, let's say your drive here is /dev/sda1, although this does not matter in this case. The line should look something like this:
+ /dev/sda1: LABEL="pidd" BLOCK_SIZE="512" UUID="1C98BC7198BC4B52" TYPE="ntfs" PAR
+	Copy the UUID with something like speech history, and if you can't get that, then open up the speech viewer and run the command.
+	Once you get the UUID, type the folling command to open the file system table (fstab) file. Replace nano with whatever terminal text editor you have:
+sudo nano /etc/fstab
+	Go to the bottom, and paste in the following line of text:
+  UUID=UUID /mountlocation    auto nosuid,nodev,nofail,x-gvfs-show 0>      
+	Here, UUID after UUID= is where you will put your UUID, making sure to remove the quotes from the UUID line you got when you entered sudo blkid. Also, don't forget to remove UUID after UUID=. Remove /mountlocation and put where you want the drive to mount to, and close the file. If you are in nano, just press CTRL+x, then press y to save your changes.
+	The last step is to test your automount. To do this, if it is an external hard drive, unplug and plug back in the drive from your computer, and if it's internal, reboot the computer with sudo reboot. If you did everything correctly, your drive contents in the folder you set your automount to.
