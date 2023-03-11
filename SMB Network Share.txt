@@ -1,0 +1,72 @@
+Creating an SMB network share.
+This tiny guide will take you through the steps required to install and configure Samba (Linux SMB implimentation).
+
+1. Update your packages:
+```
+sudo apt update && sudo apt upgrade -y
+```
+Reboot if you must, and continue onto the next stuff.
+
+2. Install Samba
+You'll never guess how easy this is.
+```
+sudo apt install samba
+```
+Go through the process. One of those package configuration screens will show up asking if you want to install packages to attempt to detect DHCP from other devices from your network. Use left and right arrows to navigate this screen, NVDA will say "Y" or "N". Do that if you wish to, or don't.
+In either case, the packages will finish their installation.
+
+Once installed, start and enable the services with:
+```
+sudo systemctl start smbd && sudo systemctl enable smbd
+```
+Now, for the fun part. Configuration.
+
+Open the main configuration like so:
+```
+sudo nano /etc/samba/smb.conf
+```
+Find the following line:
+workgroup = WORKGROUP
+Set that to a new workgroup, such as 'LINUX' or something. Do note the casing here, uppercase. I think that matters.
+Next, add the following line:
+netbios name = hostname
+'hostname' is something like, say, RASPBERRYPI or whatever the hostname of your machine is.
+
+Next, go to the bottom of your configuration, and add the following:
+Note that this is a sample and what I did. You might want to change some stuff. Note that Web is something that you can change; it is the name of the share.
+```
+[Web]
+ comment = raspberrypi Web
+ path = /var/www/html
+ writeable = yes
+ browseable = yes
+ guest okay = no
+ create mask = 0775
+```
+Save and close the configuration file, and restart the service:
+```
+systemctl restart smbd
+```
+Next, add the user to SMB:
+```
+sudo smbpasswd -a $USERNAME
+sudo smbpasswd -e $USERNAME
+```
+Replace USERNAME with the username you want to add.
+Note: For some reason, it tends to add the user as root even though you might specify a username, so prepare for that eventuality.
+The first command, -a is adding the user. The second one, -e, enables that user.
+Now, you might want to restart the service. After that, though, the device should show up on the network!
+
+Adding this newly created drive to Windows via command prompt:
+We will be using net use for this.
+Make sure that you have an unused drive letter.
+I will be using t: for my case.
+
+Open CMD (Does not have to be admin).
+The general syntax is:
+net use letter: \\network-path
+In my case it would be:
+net use t: \\raspberrypi\Web
+Now you might have to enter your username and password to access SMB, configured above. Once you do this, though, you are ready to access the data, copy / paste, etc!
+Have fun,
+BrailleScreen <https://braillescreen.net>
