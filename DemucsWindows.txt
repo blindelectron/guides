@@ -1,0 +1,22 @@
+Mini guide to Demucs- Windows Edition
+
+This guide assumes you have the Anaconda prompt installed with Demucs, or have Demucs installed in some form. If this requirement is not met, please consult the instructions found at the GitHub page. https://github.com/facebookresearch/demucs
+
+
+Open the Anaconda prompt. You can usually find this in the start menu or a related area within the computational device of choice.
+
+Change directories (`cd`) into the place you want to work from. The following things must be noted:
+* You might want to make a `demucs` directory or something. It will make its directories where you currently are.
+
+This guide will assume the file you want is called `test.mp3`, you want to use your CPU for the extraction and you want to use the `mdx_extra` model.
+
+The command would be:
+```
+demucs -d cpu -n mdx_extra test.mp3
+```
+
+Please note that if the file you wish to extract contains spaces, you will have to have the file's name in quotes. If not, though, they are not required. If you have issues, though, this is why.
+
+I hope that you enjoyed this guide and that you found it helpful.
+
+BrailleScreen <https://braillescreen.net>
