@@ -1,0 +1,108 @@
+Welcome to the OBS microphone monitoring and lagless rooting guide, version 2!
+Please make sure you have the latest version of this guide, as many things have been changed.
+This guide will show you how to monitor the output of any microphone that is connected to your computer, as well as rooting, with no lag what soever!
+Disclaimer! This is only for Windows, and guides for Mac and Linux will most likely not be written, as I have no idea how to achieve this on those platforms.
+This guide assumes you have OBS and some rooting solution already installed, and this topic will not be covered. If help is needed, feel free to contact me with the information found at the bottom of this document.
+
+What you will need:
+You will need the audio monitor plugin, as well as the win audio capture plugin, which downloads can be found below for both of these.
+As of OBS 28 and later,  the windows audio capture is built in, but does not allow for us to achieve the lagless rooting. This is why you need the third party plugin that allows for this.
+Open your web browser of choice, and do a web search for audio monitor obs plugin, and another search for win audio capture obs plugin.
+For audio monitor, Click the one that says audio monitor, obs forums, and for Win audio capture, clikc the one that says Win audio capture, obs forums.
+Once there, navigate to the heading of the plugin on the page, and click the download link. Download the versions for Windows.
+For Win audio capture, download the installer executable version from the release assets, as this is what I walk you through on how to install it.
+
+Setting up the plugins:
+Run the win audio capture setup, and go through the installer wizard. If this does not work, run the installer again.
+For audio monitor, the process is a bit different, so lets explain how to set it up.
+Step 1. Extract the archive.
+Step 2. Navigate to the following folder that is obtained with in this archive:
+data\obs-plugins
+Step 3. Once in there, copy the folder named audio-monitor to the following location:
+C:\Program Files\obs-studio\data\obs-plugins
+Step 4. Navigate to the following folder that is obtained with in this archive.
+obs-plugins\64bit
+Most systems these days are 64bit, but use the 32bit directory if yours is not.
+Step 5. Copy all files found in this folder to the following location:
+C:\Program Files\obs-studio\obs-plugins\64bit
+If your system is 32 bit, copy all files with in the 32bit directory to the 32bit directory in the obs program files folder.
+
+Creating the microphone sources:
+Each microphone and your lagless root needs there own source, and creating those sources will be explained.
+Once you create the source for your first microphone, repeat the same process for each other microphone that you intend to use with this setup.
+
+Creating the first microphone source:
+Step 1: Press the tab key until it says sources window, list. If you are not seeing this, press tab until you find the unlabeled space after the scenes window.
+Step 2: Press shift f10/applications and select add collapsed. Then select audio input capture.
+Step 3: Give the source a name of your choice. I would recommend naming it based on which microphone you are using with this source.
+Step 4: Press enter, and the source will save. If you forgot to name it, find the sources list, window, or the unlabeled space after the scenes window, and press f2 on  the unlabeled source and give that source a new name.
+
+Configuring the first microphone source:
+Step 1: Press tab until you find the sources window, list. If you are not seeing this, press tab until you find the unlabeled space after the scenes window.
+Step 2: Find the source you want to edit. If this is your first source, it will automatically be selected.
+Step 3: Press tab until you find the device combo box, and select the microphone of your choosing.
+Step 4: Shift tab back to the source list, window, or the unlabeled space after the scenes window. Once there, find the source you want to edit. If you are not seing your source name, you will be highlighted on the first source
+Step 5: Press shift F10, and down arrow until you find the filters option. Alternatively, find the button that says properties for your source name, and press space. Once there, find the filters option.
+Step 6: Press the tab key until you find the add button. Press space on this, and down arrow and press enter on audio monitor.
+Step 7: Give the audio monitor a name, or leave it at its defaults.
+
+Configuring the audio monitor:
+Step 1: Press tab until you find the button called properties for the name of your source, and select the filters option. Alternatively, find the source list, window, or the unlabeled space after the seens window, and press shift F10 on your source. If you are still in the same window from the step above, don't worry about this step.
+Step 2: Your system should focus on the list of filters, and the unlabeled list items are in order in which you created the filters. The first and only item is your monitor. Find the first and only unlabeled list item, and press tab until you find the combo box containing your sound devices. Select your root solution soundcard. VB cable and virtual audio cable are the most common.
+Step 3: You should still be focused on the monitor filter, and find the combo box that says not linked. Change this to linked to deactivated from the main view (not visible on stream/recording). This means when you mute a source, it will show/hide, as wel as mute the monitor since it is linked to the source. An example is the monitor gets muted when the source gets muted. We use show/hide because it reloads the source each time, avoiding sources getting out of sync.
+
+Configuring the ability to monitor your microphone through your headphones(optional):
+Step 1: Press shift F10, and down arrow until you find the properties option. Alternatively, find the button that says properties for your source name, and press space. Once there, find the advanced audio properties option.
+Step 2: Find the audio monitoring for source name combo box, and change it to monitor and output.
+
+Creating the lagless rooting source:
+This source relies on the third party application audio capture plugin, and only roots all applications. This does not root your whole system. An example is it won't root windows error sounds, etc.
+Step 1: Press the tab key until it says sources window, list. If you are not seeing this, press tab until you find the unlabeled space after the scenes window.
+Step 2: Press shift f10/applications and select add collapsed. Then select application audio output capture. Do not select the one that says beta.
+Step 3: Give the source a name of your choice.
+Step 4: Press enter, and the source will save. If you forgot to name it, find the sources list, window, or the unlabeled space after the scenes window, and press f2 on the unlabeled source and give that source a new name.
+
+Configuring the lagless rooting source:
+Step 1: Press tab until you find the button called properties for the name of your source, and select the filters option. Alternatively, find the source list, window, or the unlabeled space after the seens window, and press shift F10 on your source
+Step 2: make sure the Capture all audio EXCEPT sessions from the selected executables box is checked.
+Step 3: Still in this window, add the following applications to the list of currently active sessions.
+Find the combo box that says add from currently active sessions, and find the following apps in the list.
+Nvda.exe, TeamTalk5.exe, OBS Studio.exe, and any other apps you don't want to root.
+Once you are focused on the app, find the add executable button. You press the add executable after finding each app in the list.
+
+Creating and configuring the audio monitor:
+Step 1: Press tab until you find the button called properties for the name of your source, and select the filters option. Alternatively, find the source list, window, or the unlabeled space after the seens window, and press shift F10 on your source. If you are still in the same window from the step above, don't worry about this step.
+Step 2: Your system should focus on the list of filters, and the unlabeled list items are in order in which you created the filters. The first and only item is your monitor. Find the first and only unlabeled list item, and press tab until you find the combo box containing your sound devices. Select your root solution soundcard. VB cable and virtual audio cable are the most common.
+Step 3: You should still be focused on the monitor filter, and find the combo box that says not linked. Change this to linked to deactivated from the main view (not visible on stream/recording). This means when you mute a source, it will show/hide, as wel as mute the monitor since it is linked to the source. An example is the monitor gets muted when the source gets muted. We use show/hide because it reloads the source each time, avoiding sources getting out of sync.
+Now, in any communication service, change the input device to the rooting solution soundcard you used in your audio monitors in your microphone sources and the lagless rooting source.
+
+Configuring hotkeys:
+It's recommended to configure hotkeys, so you can easily show/hide your microphone and rooting sources as needed.
+Step 1: press the alt key, and down arrow to settings.
+Step 2: Once in the settings window, press the down arrow to hotkeys.
+Press tab until you find show/hide source name, and show/hide source name again, and you do the hotkey gesture you want to assign to that action.
+Keep pressing tab until you find the okay button. Do not use arrows and shift tab keys, otherwise it will add those as hotkeys. Be careful!
+If having trouble, feel free to contact me for help.
+
+Miscellaneous settings:
+It's recommended to have obs minimize to the system tray, so we will explain how to do this.
+Step 1: press alt, and down arrow to settings.
+Step 2: Press down arrow to general.
+Step 3: Make sure the system tray, and always minimize to taskbar boxes are checked.
+Step 4: Press the okay button to save your changes.
+
+Extra notes:
+If you are listening to your microphone through the windows soun control pannel, this is not needed, as this setup handles this.
+
+Contact information:
+I strongly encourage you to contact me if anything go's wrong, and I will try to help at the best of my ability.
+email: jonathantrodriguez6@gmail.com
+Telegram: JonathanR529
+Skype: live:techmaster908
+Discord: JonathanR#0705
+
+Credits:
+I would like to give a huge thanks to Ethan Jones, (Blindelectron) for discovering how to do this. Without him, I don't think this guide would be written, so thank you so much dude!
+
+Enjoy!
+Jonathan Rodriguez.
