@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>How to install Resilio Sync on Debian</title>
+</head>
+<body>
+	<h1>Written bye Matthew Smith, taken from <a href="https://blog.matthewsmithyt.ml">his blog</a></a>.</h1>
+<p>In this tutorial, you'll learn how to install Resilio Sync on Debian 11. This should work for any debian based operating system, such as Ubuntu as well.</p>
+<p>A lot of people I know have been having trouble installing resilio sync, especially for the first time. The article <a href="https://help.resilio.com/hc/en-us/articles/206178924-Installing-Sync-package-on-Linux">here</a> works pretty well if you sorta understand what you're doing, however if you're not quite sure its a completely different story. This article should serve as a more simple explanation of how to get everything set up and working properly</p>
+<p><span id="more-47"></span></p>
+<h3>Installing and setting up the package</h3>
+<p>In this tutorial, we'll be installing Resilio using the repository method. Alternatives include using a Docker image as well as manually installing the package, and there are guides for those methods in other places as well if you'd rather use one of them.</p>
+<p>First you'll want to type the following in order to add the repository to your operating system. This just makes sure your machine knows where to download the packages from.</p>
+<pre><code>echo "deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free" | sudo tee /etc/apt/sources.list.d/resilio-sync.list</code></pre>
+<p>Next you'll need to add the GPG key to the repository. This verifies the package and makes sure everything's nice and secure.</p>
+<p>You may not have the curl package installed, so before running this, you should type</p>
+<pre><code>sudo apt install curl</code></pre>
+<p>just in case.</p>
+<pre><code>curl -L https://linux-packages.resilio.com/resilio-sync/key.asc | sudo apt-key add</code></pre>
+<p>After you're done with that, feel free to run</p>
+<pre><code>sudo apt update && sudo apt upgrade</code></pre>
+<p>to make sure everything's up to date.</p>
+<p>Then, type</p>
+<pre><code>sudo apt install resilio-sync</code></pre>
+<p>to download and install the program.</p>
+<h3>Resilio Configuration</h3>
+<p>To configure resilio, you'll need to head over to the configuration file. This is usually located at /etc/resilio-sync/config.json</p>
+<p>To open the file, type</p>
+<pre><code>sudo nano /etc/resilio-sync/config.json</code></pre>
+<p>and press enter.</p>
+<p>From there, navigate down until you reach the section entitled &quot;webui&quot;.</p>
+<p>Continue scrolling down, and when you see the line that says</p>
+<p>&quot;listen&quot; : &quot;127.0.0.1:8888&quot;</p>
+<p>You'll want to replace it with the following</p>
+<pre><code>"listen" : "0.0.0.0:8888"</code></pre>
+<p>This will allow for connections outside of the machine that Resilio is running on, which is necessary if you don't plan on using the interface from that computer specifically.</p>
+<p>press control + x to leave nano and press y if prompted</p>
+<p>then, type</p>
+<pre><code>sudo systemctl enable resilio-sync && sudo systemctl start resilio-sync</code></pre>
+<p>to start the program.</p>
+<h3>Connecting to the web interface</h3>
+<p>So now you should be all set up! All you should need to do now is head over to your IP address and follow the setup as it tells you to.</p>
+<p>I hope this tutorial was helpful!</p>
+</body>
+</html>

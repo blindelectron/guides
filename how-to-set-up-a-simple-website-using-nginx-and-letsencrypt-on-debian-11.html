@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>How to set up a Simple Website using Nginx and Letsencrypt on Debian 11</title>
+</head>
+<body>
+<h1>Written bye Matthew Smith, taken from <a href="https://blog.matthewsmithyt.ml">his blog</a></a>.</h1>
+<p>In this tutorial, I'll be explaining how to set up Nginx's latest mainline version as well as Letsencrypt Certbot on Debian 11.</p>
+<p>This is something a few friends and I have been needing to do recently, and I wanted to make sure there was an easy to understand resource to go through the setup as it isn't as easy as simply running sudo apt install nginx.</p>
+<p><span id="more-54"></span></p>
+<h3>Why not just use the default version of Nginx?</h3>
+<p>As you should be aware by now, Debian has official package releases of Nginx that can be downloaded by simply running sudo apt update, sudo apt upgrade and sudo apt install nginx. These aren't usually up to date, however. As of right now, the latest version of Nginx is 1.21.6, while the package included with Debian is version 1.18.0, which was released almost two years ago.</p>
+<p>A lot can happen in two years, and its always good to have the latest bug fixes, security patches, and feature updates anyways. So in this article, we're going to make sure everything's always going to be updated, as well as securing your website with SSL encryption with Certbot.</p>
+<h3>Make sure you've removed all old Nginx installations</h3>
+<p>First we're going to make sure you're running under root. This makes it so you'll have full permission over your system. Type</p>
+<pre><code>sudo su</code></pre>
+<p>Stop Nginx using</p>
+<pre><code>systemctl stop nginx</code></pre>
+<p>Copy your nginx.conf file in case its modified in the update by typing</p>
+<pre><code>cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old</code></pre>
+<p>Then remove Nginx by typing</p>
+<pre><code>apt remove --purge nginx</code></pre>
+<h3>Nginx Install</h3>
+<h4>Adding the repository</h4>
+<p>Personally, I like to use the repository from sury.org, because its constantly updated with the latest fixes.<br />
+Download the script by typing</p>
+<pre><code>wget -O install-nginx.sh https://packages.sury.org/nginx-mainline/README.txt
+chmod +x install-nginx.sh</code></pre>
+<p>Next, run the script by typing</p>
+<pre><code>./install-nginx.sh</code></pre>
+<h4>Updating and Installing Nginx</h4>
+<p>Type</p>
+<pre><code>apt update</code></pre>
+<p>to refresh apt, then type</p>
+<pre><code>apt install nginx</code></pre>
+<p>to install it.</p>
+<p>You might be prompted to keep or replace your nginx.conf file that we copied at the beginning of the guide. I would recommend that you keep it in order to save your old settings if they existed in the first place.</p>
+<h4>Check Nginx's Version to Ensure it Installed Properly</h4>
+<p>To check the version, type</p>
+<pre><code>sudo nginx -v</code></pre>
+<h4>Making Sure Nginx Starts On Boot</h4>
+<p>To make sure Nginx starts on Boot, type</p>
+<pre><code>systemctl enable nginx</code></pre>
+<p>To start it now, type</p>
+<pre><code>systemctl start nginx</code></pre>
+<h4>Visit Your Server's Address In a Browser</h4>
+<p>After enabling and starting Nginx, make sure you can view the &quot;Welcome to Nginx!&quot; page in your browser. Visit your server's IP address or domain name in your computer's web browser.<br />
+If it doesn't work, you may want to run</p>
+<pre><code>systemctl status nginx</code></pre>
+<p>and see what the error is.</p>
+<h3>Nginx Configuration</h3>
+<p>While having a single website is fine for most people, some people need more than that. Say you have a Blog as well as an online web app... You're not going to put that all on one site, are you?<br />
+This portion of the article deals with that problem</p>
+<h4>Stopping Nginx</h4>
+<p>First, before we do anything else, its good to stop Nginx so that it won't be working while we're editing files and changing settings. We'll start it back up in a minute when we're all done, but for now its better that we stop the service so nothing can break.</p>
+<p>To do this, type</p>
+<pre><code>systemctl stop nginx</code></pre>
+<h4>Editing your nginx.conf configuration file</h4>
+<p>In order to make things easier, you'll want to edit your Nginx configuration file, located at /etc/nginx/nginx.conf</p>
+<p>Type</p>
+<pre><code>nano /etc/nginx/nginx.conf</code></pre>
+<p>to load into the file.</p>
+<p>On the line that reads<br />
+user nginx;<br />
+you'll want to change the nginx value to www-data, making the line look like this.</p>
+<pre><code>user  www-data;</code></pre>
+<p>This makes sure that the Nginx process runs under the www-data user rather than the Nginx user.</p>
+<p>Now, in the same file, find the line that reads<br />
+include /etc/nginx/conf.d/*.conf;<br />
+and if it is not already there,replace it with this.</p>
+<pre><code>    include /etc/nginx/sites-enabled/*;</code></pre>
+<p>Then, close nano using control + X and press y and enter to save your changes.</p>
+<h4>Creating your folders</h4>
+<p>Sometimes, your Debian machine won't come with a few folders that are better to have when working with web servers. For example, /var/www, /etc/nginx/sites-available and sites-enabled, and a few more.</p>
+<p>We're going to make sure your machine has those folders created, if not we're going to create them. Run the following command to make sure</p>
+<pre><code>mkdir -p /var/www && mkdir -p /etc/nginx/sites-available && mkdir /etc/nginx/sites-enabled</code></pre>
+<p>Now that you've created your folders, you may need to create a few more.<br />
+Inside /var/www, you'll want to make a few subfolders. Each subfolder you make will be the name of a site. For example, I could have /var/www/example.com, /var/www/example.net, and /var/www/example.org folders.<br />
+Inside the site folders, you'll want to make a subfolder called public_html and another called logs. The public_html folder is where your site's content should be placed and the logs directory is where your site's access and error logs will be stored.</p>
+<p>Here's the example commands to set up a site called example.com.</p>
+<pre><code>mkdir -p /var/www/example.com && mkdir /var/www/example.com/public_html && mkdir /var/www/example.com/logs</code></pre>
+<h4>Telling Nginx about your Site</h4>
+<p>Similar to Apache's virtual hosts, Nginx uses server blocks. These are files that go in your /etc/nginx/sites-enabled folder and tell Nginx how it should handle your site and its content.</p>
+<p>Here is an example Server Block file that you can base yours off of.</p>
+<pre><code>server {
+listen 80 default_server;
+listen [::]:80 default_server;
+access_log /var/www/default/logs/access.log;
+error_log /var/www/default/logs/error.log;
+
+server_name default;
+
+root /var/www/default/public_html;
+index index.html;
+
+location / {
+    try_files $uri $uri/ =404;
+}
+}</code></pre>
+<p>To make a new site, open Nano to /etc/nginx/sites-enabled/<your-site-name> by typing the following</p>
+<pre><code>nano /etc/nginx/sites-enabled/<your-site-name></code></pre>
+<p>Make sure the root directory in each file matches the folder where your web content is stored, and don't forget to remove default_server from the line starting with listen if the site you're creating is not the default for your machine.<br />
+If you need to use autoindexing for files in your entire site, type the following lines.</p>
+<pre><code>autoindex on;
+autoindex_localtime on;
+autoindex_exact_size off;</code></pre>
+<p>If you would only like files inside a specific folder to be indexed, type the same lines, but within a specific location directive.<br />
+Location directives usually look like this.</p>
+<pre><code>location /<subfolder_of_public_html> {
+autoindex on;
+autoindex_localtime on;
+autoindex_exact_size off;
+}</code></pre>
+<p>After editing the file to your liking, save and close Nano by typing Control + X and pressing Y and Enter.</p>
+<p>If you need more than one site, just repeat this process again.</p>
+<h3>Securing your site with Letsencrypt</h3>
+<p>Before we start, you should already have a domain name set up and pointing at your server. You can't use a server IP address for this.</p>
+<p>Before we start, make sure port 80 is forwarded for HTTP and port 443 is forwarded for secure traffic using HTTPS.</p>
+<h4>Installing the Program</h4>
+<p>You'll need to run</p>
+<pre><code>apt install python3-certbot-nginx</code></pre>
+<p>to install the certbot client.</p>
+<h4>Setting up your site</h4>
+<p>To add your site to Certbot, type the following</p>
+<pre><code>sudo certbot --nginx -d yoursite.com</code></pre>
+<p>Make sure you replace yoursite with the name of your site. For example, example.com. Don't use https or http in the name. If you'd like to use something like www.example.com as well as example.com, your command would look like this.</p>
+<pre><code>sudo certbot --nginx -d yoursite.com -d www.yoursite.com</code></pre>
+<p>It may prompt you for an email address for renewal notifications and it may also prompt you to allow notifications for new products for the company, EFF.</p>
+<h3>That's it!</h3>
+<p>You should be all done.</p>
+<p>In the future, I'll make a guide on how to install PHP and MySQL, so stay tuned for that!</p>
+<p>Hope you appreciated this guide!</p>
+</body>
+</html>
