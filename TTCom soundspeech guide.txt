@@ -1,0 +1,40 @@
+The TTCom soundspeech guide.
+In this guide, you will learn how to set up and configure the soundspeetch trigger that was made by Brynify.
+Step 1. Download the trigger from the link below.
+https://github.com/brynify/TTCom-soundspeech/archive/refs/heads/main.zip
+Step 2. Extract the downloaded zip file.
+Step 3. This trigger will not work with masonasons old fork of TTCom, and you must download and stay up to date with the latest revision of TTCom by the main developer, Doug Lee.
+You can download that with the link below.
+https://www.dlee.org/teamtalk/ttcom/ttcom.zip
+Step 4. Make sure you have python3.7 or later installed on your system.
+This guide does not cover this step, and assumes the user knows how to do this.
+Step 5. Extract the TTCom zip file.
+Step 6. Once the TTCom zip file is extracted, copy the following folders and files from the extracted TTCom soundspeech folder to  the new TTCom directory:
+accessible_output2
+include
+sounds
+text
+ttcom_triggers.py
+Step 7. Install the following module using pip.
+pip install accessible_output2
+Step 8. In the new TTCom directory, you should already have a ttcom.conf file. If not, rename ttcom_default.conf to ttcom.conf.
+Step 9. Open ttcom.conf, and scroll down until you find [server defaults].
+Step 10. Add the following line.
+soundpack=PathToSoundpack
+For example:
+soundpack=masonasons
+Soundpacks can be found in the sounds folder. You can also ad your own packs if you wish.
+If you wish for speech events to not be logged, add the following line.
+log=False
+
+Known issues.
+If all login and logout messages are speaking all at once, and are not randomizing, do the following.
+Navigate to the TTCom-soundspeech directory, and copy ttcom_triggers_alt.py to the new TTCom directory.
+Delete ttcom_triggers.py.
+Rename ttcom_triggers_alt.py to ttcom_triggers.py.
+If your screen reader is not speaking any events from TTCom, or just having general issues with the program, do the following.
+Navigate to the run dialog, by pressing Windows R.
+type %temp%
+Delete the gen_py folder.
+Hope this helps.
+Jonathan.
