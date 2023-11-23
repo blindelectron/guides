@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NVDARemoteServer Debian installation guide</title>
+</head>
+<body>
+
+  <h1>NVDARemoteServer Debian installation guide</h1>
+
+  <p>In this guide, you will learn how to set up and install the NVDARemote relay server on Debian based systems.</p>
+
+  <h2>Step 1: Install git</h2>
+  <p>You will need git to clone the repository from GitHub. Clone is another term for downloading. To install git, execute the following command:</p>
+  <pre><code>sudo apt install git -y</code><button onclick="copyText('sudo apt install git -y')">Copy</button></pre>
+  <p>The reason we include the <code>sudo</code> flag at the beginning of the commands is because the <code>apt</code> command makes changes to the system at the root level.</p>
+  
+  <h2>Step 2: cd to a directory to where you want to store the contents of the server</h2>
+  <p>The server will be removed, so just pick any directory of your choosing. Example: <code>cd /home/user</code></p>
+  <pre><code>git clone https://github.com/jmdaweb/NVDARemoteServer.git</code><button onclick="copyText('git clone https://github.com/jmdaweb/NVDARemoteServer.git')">Copy</button></pre>
+  <p>The reason we include the .git at the end of the link, is because it tells the git program the specific repository we are trying to download.</p>
+
+  <h2>Step 3: cd to the NVDARemoteServer/debian directory:</h2>
+  <p>Once git finishes cloning the repository, we are going to cd to the NVDARemoteServer/debian directory to execute commands to the NVDARemoteServer build script for the Debian operating system:</p>
+  <pre><code>cd NVDARemoteServer/debian</code><button onclick="copyText('cd NVDARemoteServer/debian')">Copy</button></pre>
+
+  <h2>Step 4: Change file permissions and execute the build script</h2>
+  <p>The reason we want to change file permissions is that by default, the file does not have permissions to write changes to the system.</p>
+  <pre><code>chmod +x build.sh</code><button onclick="copyText('chmod +x build.sh')">Copy</button></pre>
+
+  <h2>Step 5: Execute the build script and build the package</h2>
+  <p>Once file permissions are changed, run the following two commands to execute the build script and build the package:</p>
+  <pre><code>sudo ./build.sh</code><button onclick="copyText('sudo ./build.sh')">Copy</button></pre>
+  <pre><code>sudo dpkg -i nvda-remote-server_2.3.deb</code><button onclick="copyText('sudo dpkg -i nvda-remote-server_2.3.deb')">Copy</button></pre>
+  <p>At the time of this writing, the version number is 2.3, but it always changes. Check the nvda-remote-server_version file in the same directory to make sure.</p>
+  <pre><code>ls</code><button onclick="copyText('ls')">Copy</button></pre>
+
+  <h2>Step 6: Starting the NVDARemoteServer at system startup</h2>
+  <p>We want the NVDARemoteServer to start at system startup because we don't want to start it each time the system reboots.</p>
+  <pre><code>sudo systemctl enable NVDARemoteServer</code><button onclick="copyText('sudo systemctl enable NVDARemoteServer')">Copy</button></pre>
+  <p>Now, use the following command to start the NVDARemoteServer:</p>
+  <pre><code>sudo systemctl start NVDARemoteServer</code><button onclick="copyText('sudo systemctl start NVDARemoteServer')">Copy</button></pre>
+
+  <h2>Final notes</h2>
+  <p>Go back to the previous directory, and then you can now remove the NVDARemoteServer directory.</p>
+  <p>Use the following commands to go back to the previous directory, and remove the NVDARemoteServer directory:</p>
+  <pre><code>cd ..</code><button onclick="copyText('cd ..')">Copy</button></pre>
+  <pre><code>sudo rm -rf NVDARemoteServer</code><button onclick="copyText('sudo rm -rf NVDARemoteServer')">Copy</button></pre>
+  <p>I don't know how to make self-signed SSL certificates to make the NVDARemote client not show the security alert when connecting to the server for the first time.</p>
+  <h2>Contact information</h2>
+  <ul>
+    <li><a href="https://discordapp.com/users/726873127467876353" target="_blank" rel="noopener noreferrer">Discord</a></li>
+    <li><a href="mailto:jonathantrodriguez6@gmail.com" target="_blank" rel="noopener noreferrer">Email</a></li>
+    <li><a href="https://dragonscave.space/@Jonathan" target="_blank" rel="noopener noreferrer">Mastodon</a></li>
+    <li><a href="https://join.skype.com/invite/Q4m7xUpJI7ts" target="_blank" rel="noopener noreferrer">Skype</a></li>
+    <li><a href="https://t.me/JonathanR529" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+  </ul>
+
+  <p>Enjoy!<br>Jonathan Rodriguez.</p>
+
+  <script>
+    function copyText(text) {
+      navigator.clipboard.writeText(text)
+        .then(() => {})
+        .catch(err => {
+          console.error('Unable to copy command: ', err);
+        });
+    }
+  </script>
+
+</body>
+</html>
